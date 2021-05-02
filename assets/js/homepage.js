@@ -2,6 +2,7 @@ var userFormEl = document.querySelector('#user-form')
 var nameInputEl = document.querySelector('#username')
 var repoContainerEl = document.querySelector('#repos-container')
 var repoSearhTerm = document.querySelector('#repo-search-term')
+var languagesBtnEl = document.querySelector('#language-btns')
 
 var getUserRepos = function (user) {
     //format the githab api url 
@@ -94,3 +95,13 @@ var getFeaturedRepos = function(language) {
         }
     })
 }
+
+var buttonClickHandler = function(event) {
+    var language = event.target.getAttribute('data-language')
+    if (language) {
+        getFeaturedRepos(language)
+        repoContainerEl.textContent = ''
+    }
+}
+
+languagesBtnEl.addEventListener('click', buttonClickHandler)
