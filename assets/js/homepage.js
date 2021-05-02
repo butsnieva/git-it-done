@@ -10,11 +10,17 @@ var getUserRepos = function (user) {
     //make a request to the url
     fetch(apiUrl)
     .then(function(response) {
-        response.json()
-        .then(function(data){
+        if (response.ok) {
+            response.json().then(function(data){
             displayRepos(data, user)
         })
+        } else {
+            alert('Error: GitHub User Not Found')
+        }
     }) 
+    .catch(function(error) {
+        alert('Unable to connect to GitHub')
+    })
 }
 
 var formSubmitHandler = function(event) {
@@ -35,6 +41,11 @@ var displayRepos = function(repos, searchTerm) {
     repoContainerEl.textContent = ''
     repoSearhTerm.textContent = searchTerm
 
+    //check if api returned any repos
+    if (repos.length === 0) {
+        repoContainerEl.textContent = 'No Repositories Found'
+        return
+    }
     //loop over repos
     for (var i = 0; i < repos.length; i++) {
         //format repo name
