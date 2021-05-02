@@ -1,6 +1,6 @@
 var issueContainerEl = document.querySelector('#issues-container')
 var limitWarningEl = document.querySelector('#limit-warning')
-
+var repoNameEl = document.querySelector('#repo-name')
 
 var getRepoIssues = function (repo) {
     var apiUrl = 'https://api.github.com/repos/' + repo + '/issues?direction=asc'
@@ -21,7 +21,13 @@ var getRepoIssues = function (repo) {
         }
     })
 }
-getRepoIssues('angular/angular')
+var getRepoName = function(){
+    var queryString = document.location.search
+    var repoName = queryString.split('=')[1]
+    getRepoIssues(repoName)
+    repoNameEl.textContent = repoName
+}
+getRepoName()
 
 
 var displayIssues = function(issues) {

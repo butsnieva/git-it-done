@@ -52,30 +52,27 @@ var displayRepos = function(repos, searchTerm) {
         var repoName = repos[i].owner.login + '/' + repos[i].name
         
         //create a container for each repo
-        var repoEl = document.createElement('div')
-        repoEl.classList = 'list-item flex-row justify-space-between align-center'
+        var repoEl = document.createElement('a')
+            repoEl.classList = 'list-item flex-row justify-space-between align-center'
+            repoEl.setAttribute('href', './single-repo.html?repo=' + repoName)
 
         //create a span el to hold repo name
         var titleEl = document.createElement('span')
-        titleEl.textContent = repoName
-
+            titleEl.textContent = repoName
         //append to container
         repoEl.appendChild(titleEl)
-
         //append container to the dom
         repoContainerEl.appendChild(repoEl)
 
         //create a status el
         var statusEl = document.createElement('span')
-        statusEl.classList = 'flex-row align-center'
-
-        //check if current  repo has issues or not  
-        if (repos[i].open_issues_count > 0) {
-            statusEl.innerHTML = '<i class="fas fa-times status-icon icon-danger"></i>' + repos[i].open_issues_count + 'issue(s)'
-        } else {
-            statusEl.innerHTML = '<i class="fas fa-check-square status-icon icon-success"></i>'
-        }
-
+            statusEl.classList = 'flex-row align-center'
+                //check if current  repo has issues or not  
+                if (repos[i].open_issues_count > 0) {
+                    statusEl.innerHTML = '<i class="fas fa-times status-icon icon-danger"></i>' + repos[i].open_issues_count + 'issue(s)'
+                } else {
+                    statusEl.innerHTML = '<i class="fas fa-check-square status-icon icon-success"></i>'
+                }
         //append to container 
         repoEl.appendChild(statusEl)
     }
