@@ -1,5 +1,5 @@
 var issueContainerEl = document.querySelector('#issues-container')
-
+var limitWarningEl = document.querySelector('#limit-warning')
 
 
 var getRepoIssues = function (repo) {
@@ -10,13 +10,18 @@ var getRepoIssues = function (repo) {
             response.json().then(function(data) {
                 //pass response data to dom function
                 displayIssues(data)
+
+                //check if api has paginated issues
+                if (response.headers.get('Link')) {
+                    displayWarning(repo)
+                }
             })
         } else {
             alert('There was a problem with your request!')
         }
     })
 }
-getRepoIssues('butsnieva/run-buddy')
+getRepoIssues('angular/angular')
 
 
 var displayIssues = function(issues) {
@@ -47,4 +52,14 @@ var displayIssues = function(issues) {
             }
         issueEl.appendChild(typeEl)
     }
+}
+
+var displayWarning = function(repo) {
+    limitWarningEl.textContent = 'To see more than 30 issues, visit '
+
+    var linkEl = document.createElement('a')
+        linkEl.textContent = 'See more issues on GitHub.com'
+        linkEl.setAttribute('href', 'https://github.com/' + repo + '/issues')
+        linkEl.setAttribute('target', '_blank')
+    limitWarningEl.appendChild(linkEl)
 }
